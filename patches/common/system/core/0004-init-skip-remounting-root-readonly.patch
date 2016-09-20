@@ -1,0 +1,31 @@
+From d6d61df5d589a5592e403bdbacc0341df8d10732 Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Mon, 19 Sep 2016 12:06:22 -0500
+Subject: [PATCH 4/5] init: skip remounting root readonly
+
+-This is helpfull in allow you to push
+files into "ramdisk" during boot.
+
+-This should be removed when not needed.
+
+Change-Id: I8c3b379036376409228a7d04781a106f595b9ac5
+---
+ rootdir/init.rc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 96b0884..ffbed89 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -256,7 +256,7 @@ on late-init
+ on post-fs
+     start logd
+     # once everything is setup, no need to modify /
+-    mount rootfs rootfs / ro remount
++    # mount rootfs rootfs / ro remount
+     # Mount shared so changes propagate into child namespaces
+     mount rootfs rootfs / shared rec
+     # Mount default storage into root namespace
+-- 
+1.9.1
+

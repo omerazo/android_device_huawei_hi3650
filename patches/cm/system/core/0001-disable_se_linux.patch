@@ -1,0 +1,57 @@
+From a1159acd58a205b6777579070ea150844091ce0b Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Sat, 17 Sep 2016 10:53:05 -0500
+Subject: [PATCH] 0001-disable_se_linux
+
+Change-Id: I8733cb95991eb576f1d111dc0d6f8f762c5727c0
+---
+ init/Android.mk |  1 -
+ init/init.cpp   | 16 ++--------------
+ 2 files changed, 2 insertions(+), 15 deletions(-)
+
+diff --git a/init/Android.mk b/init/Android.mk
+index 85dfbfc..7afe762 100644
+--- a/init/Android.mk
++++ b/init/Android.mk
+@@ -16,7 +16,6 @@ init_cflags += \
+     $(init_options) \
+     -Wall -Wextra \
+     -Wno-unused-parameter \
+-    -Werror \
+ 
+ init_clang := true
+ 
+diff --git a/init/init.cpp b/init/init.cpp
+index 58d7d34..e66e86d 100644
+--- a/init/init.cpp
++++ b/init/init.cpp
+@@ -915,24 +915,12 @@ static selinux_enforcing_status selinux_status_from_cmdline() {
+ 
+ static bool selinux_is_disabled(void)
+ {
+-    if (ALLOW_DISABLE_SELINUX) {
+-        if (access("/sys/fs/selinux", F_OK) != 0) {
+-            // SELinux is not compiled into the kernel, or has been disabled
+-            // via the kernel command line "selinux=0".
+-            return true;
+-        }
+-        return selinux_status_from_cmdline() == SELINUX_DISABLED;
+-    }
+-
+-    return false;
++    return true;
+ }
+ 
+ static bool selinux_is_enforcing(void)
+ {
+-    if (ALLOW_DISABLE_SELINUX) {
+-        return selinux_status_from_cmdline() == SELINUX_ENFORCING;
+-    }
+-    return true;
++    return false;
+ }
+ 
+ int selinux_reload_policy(void)
+-- 
+1.9.1
+

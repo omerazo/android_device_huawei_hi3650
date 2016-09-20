@@ -1,0 +1,32 @@
+From 7c8531ec798c2f8711fd1a34a44a26858e9d26a8 Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Mon, 19 Sep 2016 12:03:49 -0500
+Subject: [PATCH 3/5] init: force 64 bit zygote
+
+- For the life of me I can't figure out how to
+get this corrected on a dirty build. Don't want to run
+a whole new build just to get "ro.zygote" set to
+zygote64_32 in default.prop so. This is quick and
+dirty.
+
+Change-Id: I6fbbd21013cb1d21f95149cbdfc22919a1641f35
+---
+ rootdir/init.rc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 1c6fca6..96b0884 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -8,7 +8,7 @@ import /init.environ.rc
+ import /init.usb.rc
+ import /init.${ro.hardware}.rc
+ import /init.usb.configfs.rc
+-import /init.${ro.zygote}.rc
++import /init.zygote64_32.rc
+ import /init.trace.rc
+ # Include CM's extra init file
+ import /init.cm.rc
+-- 
+1.9.1
+

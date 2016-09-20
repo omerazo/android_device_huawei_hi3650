@@ -1,0 +1,56 @@
+From 8b92e756df2acf8d91bd223d96034ffa59f153c5 Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Tue, 20 Sep 2016 09:01:23 -0500
+Subject: [PATCH] 0002-liblog-add-missing-hi-print-symbol
+
+Change-Id: I65051abd2b05fd3fa3aa3200ff371baaad61be0a
+---
+ liblog/Android.mk   | 6 +++---
+ liblog/logd_write.c | 5 +++++
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/liblog/Android.mk b/liblog/Android.mk
+index 6714498..ecf7620 100644
+--- a/liblog/Android.mk
++++ b/liblog/Android.mk
+@@ -59,7 +59,7 @@ endif
+ # ========================================================
+ LOCAL_MODULE := liblog
+ LOCAL_SRC_FILES := $(liblog_host_sources)
+-LOCAL_CFLAGS := -DFAKE_LOG_DEVICE=1 -Werror $(liblog_cflags)
++LOCAL_CFLAGS := -DFAKE_LOG_DEVICE=1 $(liblog_cflags)
+ LOCAL_MULTILIB := both
+ include $(BUILD_HOST_STATIC_LIBRARY)
+ 
+@@ -78,13 +78,13 @@ include $(BUILD_HOST_SHARED_LIBRARY)
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := liblog
+ LOCAL_SRC_FILES := $(liblog_target_sources)
+-LOCAL_CFLAGS := -Werror $(liblog_cflags)
++LOCAL_CFLAGS := $(liblog_cflags)
+ include $(BUILD_STATIC_LIBRARY)
+ 
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := liblog
+ LOCAL_WHOLE_STATIC_LIBRARIES := liblog
+-LOCAL_CFLAGS := -Werror $(liblog_cflags)
++LOCAL_CFLAGS := $(liblog_cflags)
+ 
+ # TODO: This is to work around b/19059885. Remove after root cause is fixed
+ LOCAL_LDFLAGS_arm := -Wl,--hash-style=both
+diff --git a/liblog/logd_write.c b/liblog/logd_write.c
+index 7f772af..3643dcb 100644
+--- a/liblog/logd_write.c
++++ b/liblog/logd_write.c
+@@ -552,3 +552,8 @@ void __attribute__((weak)) __xlog_buf_printf(__unused int bufid, const struct xl
+     return;
+ }
+ #endif
++
++extern int __hi_log_print(int a1, const char *a2, const char *a3, const char *a4, ...) {
++  return 0;
++}
++
+-- 
+1.9.1
+

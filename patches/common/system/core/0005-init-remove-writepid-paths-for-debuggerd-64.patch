@@ -1,0 +1,29 @@
+From e08bb525edfadaeffd9ef2194a507f4f5cfd30cb Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Mon, 19 Sep 2016 12:08:46 -0500
+Subject: [PATCH 5/5] init: remove writepid paths for debuggerd/64
+
+Change-Id: I1556ce5251c69ff7dd3dcdb033991b9e3747f7d9
+---
+ rootdir/init.rc | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index ffbed89..99bfa0a 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -647,11 +647,9 @@ service netd /system/bin/netd
+ 
+ service debuggerd /system/bin/debuggerd
+     class main
+-    writepid /dev/cpuset/system-background/tasks
+ 
+ service debuggerd64 /system/bin/debuggerd64
+     class main
+-    writepid /dev/cpuset/system-background/tasks
+ 
+ service ril-daemon /system/bin/rild
+     class main
+-- 
+1.9.1
+

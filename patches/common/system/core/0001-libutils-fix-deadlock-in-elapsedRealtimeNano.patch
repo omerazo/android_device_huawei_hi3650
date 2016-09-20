@@ -1,0 +1,94 @@
+From c00328f99aad5f1e8e879557f142981f08146fe3 Mon Sep 17 00:00:00 2001
+From: Scott Mertz <scott@cyngn.com>
+Date: Mon, 29 Aug 2016 11:32:32 -0700
+Subject: [PATCH 1/5] libutils: fix deadlock in elapsedRealtimeNano
+
+If n > 2 threads all lock the mutex awaiting the clock method to
+be set, the 1st thread will first set the method and unlock.  The
+2nd thread will then take the mutex, but never unlock because the
+clock_method has already been updated by the 1st thread.  This causes
+a deadlock for threads 3-n.
+
+Solution is to ensure the calling thread always unlocks the mutex if
+it has previously locked it.
+
+Log:
+
+"main" prio=5 tid=1 Native
+  | group="main" sCount=1 dsCount=0 obj=0x733313b0 self=0xb4cf6500
+  | sysTid=12786 nice=0 cgrp=default sched=0/0 handle=0xb6f86b44
+  | state=S schedstat=( 41990410 32985836 80 ) utm=3 stm=1 core=2 HZ=100
+  | stack=0xbe5fb000-0xbe5fd000 stackSize=8MB
+  | held mutexes=
+  native: #00 pc 00017638  /system/lib/libc.so (syscall+28)
+  native: #01 pc 0003ffa5  /system/lib/libc.so (_ZL33__pthread_mutex_lock_with_timeoutP24pthread_mutex_internal_tPK8timespeci+504)
+  native: #02 pc 000400a9  /system/lib/libc.so (pthread_mutex_lock+26)
+  native: #03 pc 0000fa01  /system/lib/libutils.so (_ZN7android19elapsedRealtimeNanoEv+16)
+  native: #04 pc 0000fb1f  /system/lib/libutils.so (_ZN7android15elapsedRealtimeEv+2)
+  native: #05 pc 00214d1d  /data/dalvik-cache/arm/system@framework@boot.oat (Java_android_os_SystemClock_elapsedRealtime__+72)
+
+"Thread-6372" prio=5 tid=9 Native
+  | group="main" sCount=1 dsCount=0 obj=0x32c05120 self=0xacb58100
+  | sysTid=12829 nice=10 cgrp=bg_non_interactive sched=0/0 handle=0xb38c3930
+  | state=S schedstat=( 869427 8219115 17 ) utm=0 stm=0 core=2 HZ=100
+  | stack=0xb37c1000-0xb37c3000 stackSize=1038KB
+  | held mutexes=
+  native: #00 pc 00017638  /system/lib/libc.so (syscall+28)
+  native: #01 pc 0003ffa5  /system/lib/libc.so (_ZL33__pthread_mutex_lock_with_timeoutP24pthread_mutex_internal_tPK8timespeci+504)
+  native: #02 pc 000400a9  /system/lib/libc.so (pthread_mutex_lock+26)
+  native: #03 pc 0000fa01  /system/lib/libutils.so (_ZN7android19elapsedRealtimeNanoEv+16)
+  native: #04 pc 0000fb1f  /system/lib/libutils.so (_ZN7android15elapsedRealtimeEv+2)
+  native: #05 pc 00214d1d  /data/dalvik-cache/arm/system@framework@boot.oat (Java_android_os_SystemClock_elapsedRealtime__+72)
+
+HAM-1470
+Change-Id: I41874d2b0ea034a35a74da030398231089c15cde
+---
+ libutils/SystemClock.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/libutils/SystemClock.cpp b/libutils/SystemClock.cpp
+index c3b5d74..28ea817 100644
+--- a/libutils/SystemClock.cpp
++++ b/libutils/SystemClock.cpp
+@@ -121,9 +121,11 @@ int64_t elapsedRealtimeNano()
+ #endif
+ 
+     static int s_fd = -1;
++    bool need_unlock = false;
+ 
+     if (clock_method < 0) {
+         pthread_mutex_lock(&clock_lock);
++        need_unlock = true;
+     }
+ 
+     if (clock_method < 0 || clock_method == METHOD_IOCTL) {
+@@ -143,6 +145,8 @@ int64_t elapsedRealtimeNano()
+                 checkTimeStamps(timestamp, &prevTimestamp, &prevMethod, METHOD_IOCTL);
+                 if (clock_method < 0) {
+                     clock_method = METHOD_IOCTL;
++                }
++                if (need_unlock) {
+                     pthread_mutex_unlock(&clock_lock);
+                 }
+                 return timestamp;
+@@ -159,6 +163,8 @@ int64_t elapsedRealtimeNano()
+                             METHOD_CLOCK_GETTIME);
+             if (clock_method < 0) {
+                 clock_method = METHOD_CLOCK_GETTIME;
++            }
++            if (need_unlock) {
+                 pthread_mutex_unlock(&clock_lock);
+             }
+             return timestamp;
+@@ -173,6 +179,8 @@ int64_t elapsedRealtimeNano()
+                     METHOD_SYSTEMTIME);
+     if (clock_method < 0) {
+         clock_method = METHOD_SYSTEMTIME;
++    }
++    if (need_unlock) {
+         pthread_mutex_unlock(&clock_lock);
+     }
+     return timestamp;
+-- 
+1.9.1
+
