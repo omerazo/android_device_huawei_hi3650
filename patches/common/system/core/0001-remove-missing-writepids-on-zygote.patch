@@ -1,0 +1,35 @@
+From 333f3da7712bd21ec1984bebe0cf5f85ba325991 Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Tue, 20 Sep 2016 12:15:31 -0500
+Subject: [PATCH] remove missing writepids on zygote
+
+Change-Id: I16fdc1d84fb33b17b46845fac28c98758975a162
+---
+ rootdir/init.zygote64_32.rc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/rootdir/init.zygote64_32.rc b/rootdir/init.zygote64_32.rc
+index 8ed5e9e..e4d9120 100644
+--- a/rootdir/init.zygote64_32.rc
++++ b/rootdir/init.zygote64_32.rc
+@@ -1,14 +1,13 @@
+ service zygote /system/bin/app_process64 -Xzygote /system/bin --zygote --start-system-server --socket-name=zygote
+     class main
+     socket zygote stream 660 root system
+-    onrestart write /sys/android_power/request_state wake
+     onrestart write /sys/power/state on
+     onrestart restart media
+     onrestart restart netd
+-    writepid /dev/cpuset/foreground/tasks
++    critical
+ 
+ service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote --socket-name=zygote_secondary
+     class main
+     socket zygote_secondary stream 660 root system
+     onrestart restart zygote
+-    writepid /dev/cpuset/foreground/tasks
+\ No newline at end of file
++    critical
+-- 
+1.9.1
+
