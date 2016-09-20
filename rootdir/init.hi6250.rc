@@ -424,13 +424,28 @@ on property:sys.boot_completed=1
     stop gatekeeperd
 
 on property:service.bootanim.exit=1
+
+#Meticulus:
+# Potential for balancing performance and battery!
+# For now let's, full on!
+
     write /sys/class/devfreq/ddrfreq/max_freq 933000000
     write /sys/class/devfreq/ddrfreq/min_freq 933000000
-    write /sys/class/devfreq/ddrfreq/min_freq 0
-    write /sys/class/devfreq/ddrfreq/max_freq 0
+    write /sys/class/devfreq/ddr/freq/governor mali-ondemand
 
     write /sys/class/devfreq/ddrfreq_up_threshold/max_freq 933000000
     write /sys/class/devfreq/ddrfreq_up_threshold/min_freq 933000000
+    write /sys/class/devfreq/ddrfreq_up_threshold/governor mali-ondemand
+
+#Meticulus:
+# Let's set the gpu freq stuff too!
+
+    write /sys/class/devfreq/gpufreq/max_freq 900000000
+    write /sys/class/devfreq/gpufreq/min_freq 900000000
+    write /sys/class/devfreq/gpufreq/governor mali-ondemand
+
+    write /sys/devices/e8970000.mali/max_pool_max_size 131072
+    write /sys/devices/e8970000.mali/mem_pool_size 125560
 
     write /proc/balong/stats/boot_time 1
 
