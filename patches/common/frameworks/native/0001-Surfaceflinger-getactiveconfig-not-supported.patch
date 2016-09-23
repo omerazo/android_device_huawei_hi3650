@@ -1,15 +1,27 @@
-From c647eaf3644dfd2f4dd32f5970ce08b4d443621f Mon Sep 17 00:00:00 2001
+From f772fb2dac07c1b16fd78e706abb403223da7cfe Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Thu, 22 Sep 2016 06:31:50 -0500
-Subject: [PATCH] Surfaceflinger: getactiveconfig not supported.
+Date: Thu, 22 Sep 2016 15:23:54 -0500
+Subject: [PATCH] 0001-Surfaceflinger-getactiveconfig-not-supported
 
--Skip this cause it crashing
-
-Change-Id: I7bbe164e4a150eed82bec9938a0a32b2b6c6a742
+Change-Id: I2bd1cbf76259811f3f8600363506e4faddaf1334
 ---
+ services/surfaceflinger/Android.mk                     | 2 +-
  services/surfaceflinger/DisplayHardware/HWComposer.cpp | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/services/surfaceflinger/Android.mk b/services/surfaceflinger/Android.mk
+index 25fa503..aa837d5 100644
+--- a/services/surfaceflinger/Android.mk
++++ b/services/surfaceflinger/Android.mk
+@@ -152,7 +152,7 @@ endif
+ 
+ LOCAL_MODULE := libsurfaceflinger
+ 
+-LOCAL_CFLAGS += -Wall -Werror -Wunused -Wunreachable-code
++LOCAL_CFLAGS += -Wall -Wunused -Wunreachable-code
+ 
+ include $(BUILD_SHARED_LIBRARY)
+ 
 diff --git a/services/surfaceflinger/DisplayHardware/HWComposer.cpp b/services/surfaceflinger/DisplayHardware/HWComposer.cpp
 index 17e91d9..526efbb 100644
 --- a/services/surfaceflinger/DisplayHardware/HWComposer.cpp
