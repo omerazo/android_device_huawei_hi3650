@@ -83,6 +83,13 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
 
+# Audio
+PRODUCT_PACKAGES += \
+    libtinyalsa \
+    libaudioroute \
+    audio.a2dp.default \
+    audio.r_submix.default
+
 # Hack for adb
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/busybox:root/sbin/sh
@@ -123,5 +130,4 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.setupwizard.mode=OPTIONAL \
     ro.setupwizard.enable_bypass=1 \
     ro.config.sync=yees
-
 
