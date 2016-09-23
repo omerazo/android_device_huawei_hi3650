@@ -1,0 +1,29 @@
+From 15e29127bbc0bc2422ea9f1500761f2845f8c756 Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Fri, 23 Sep 2016 07:14:16 -0500
+Subject: [PATCH] Don't crash if we can't set thread priority
+
+Change-Id: I6692c6cd8c06c052e3e49652ffd57f3c79516afa
+---
+ libutils/Threads.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libutils/Threads.cpp b/libutils/Threads.cpp
+index 1e014c6..5647694 100644
+--- a/libutils/Threads.cpp
++++ b/libutils/Threads.cpp
+@@ -320,9 +320,9 @@ int androidSetThreadPriority(pid_t tid, int pri)
+     }
+ 
+     if (setpriority(PRIO_PROCESS, tid, pri) < 0) {
+-        rc = INVALID_OPERATION;
++        rc = 0;
+     } else {
+-        errno = lasterr;
++        rc = 0;
+     }
+ #endif
+ 
+-- 
+1.9.1
+
