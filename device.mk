@@ -132,3 +132,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.setupwizard.enable_bypass=1 \
     ro.config.sync=yees
 
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.telephony.ril_class=HuaweiRIL
