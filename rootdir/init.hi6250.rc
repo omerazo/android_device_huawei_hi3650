@@ -1,5 +1,5 @@
-#import /init.balong_modem.rc
-#import /init.tee.rc
+import /init.balong_modem.rc
+import /init.tee.rc
 
 # from original init.rc
 
@@ -13,8 +13,9 @@ import /init.performance.rc
 import /init.platform.rc
 import /init.protocol.rc
 import /init.trace.rc
-#import /init.${ro.boardid.product}.rc
+import /init.51312.rc
 import /init.post-fs-data.rc
+import /init.huawei.rc
 
 on early-boot
 

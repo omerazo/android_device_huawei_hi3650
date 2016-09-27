@@ -42,6 +42,7 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.tee.rc:root/init.tee.rc \
         $(LOCAL_PATH)/rootdir/init.protocol.rc:root/init.protocol.rc \
         $(LOCAL_PATH)/rootdir/init.manufacture.rc:root/init.manufacture.rc \
+        $(LOCAL_PATH)/rootdir/init.huawei.rc:root/init.huawei.rc \
         $(LOCAL_PATH)/rootdir/init.audio.rc:root/init.audio.rc \
         $(LOCAL_PATH)/rootdir/init.4871.rc:root/init.4871.rc \
         $(LOCAL_PATH)/rootdir/init.6193.rc:root/init.6193.rc \
