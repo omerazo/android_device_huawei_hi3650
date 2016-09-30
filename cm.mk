@@ -18,13 +18,13 @@
 $(call inherit-product-if-exists, vendor/cm/config/common_full_phone.mk)
 
 # Inherit device configuration
-$(call inherit-product, device/huawei/hi6250/device.mk)
+$(call inherit-product, device/huawei/hi3650/device.mk)
 
 # Device identifier
-PRODUCT_DEVICE := hi6250
-PRODUCT_NAME := cm_hi6250
+PRODUCT_DEVICE := hi3650
+PRODUCT_NAME := cm_hi3650
 PRODUCT_BRAND := huawei
-PRODUCT_MODEL := P9 Lite
+PRODUCT_MODEL := Honor 8
 PRODUCT_MANUFACTURER := huawei
 
 TARGET_SCREEN_HEIGHT := 1920
