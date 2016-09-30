@@ -14,8 +14,8 @@
 # limitations under the License.
 #
 
-TARGET_SPECIFIC_HEADER_PATH := device/huawei/hi6250/include
-TARGET_OTA_ASSERT_DEVICE := hi2650,VNS
+TARGET_SPECIFIC_HEADER_PATH := device/huawei/hi3650/include
+TARGET_OTA_ASSERT_DEVICE := hi3650,VNS
 
 # Board
 TARGET_BOOTLOADER_BOARD_NAME := hisi
@@ -23,7 +23,7 @@ TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 
 # Platform 
-TARGET_BOARD_PLATFORM := hi6250
+TARGET_BOARD_PLATFORM := hi3650
 TARGET_CPU_SMP := true
 TARGET_USES_64_BIT_BINDER := true
 TARGET_USES_HISI_DTIMAGE := true
@@ -34,7 +34,7 @@ ANDROID_64=true
 # 1st Arch
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
-TARGET_CPU_VARIANT := cortex-a53
+TARGET_CPU_VARIANT := cortex-a72
 TARGET_CPU_ABI := arm64-v8a
 TARGET_BOARD_GPU := mali-t830mp2
 
@@ -45,6 +45,9 @@ TARGET_2ND_CPU_VARIANT := cortex-a53
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 
+# CPU
+TARGET_CPU_CORTEX_A53 := true
+
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 25165824
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
@@ -53,21 +56,21 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 11166914969
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Kernel
-TARGET_KERNEL_CONFIG := merge_hi6250_defconfig
-TARGET_KERNEL_SOURCE := kernel/huawei/hi6250
+TARGET_KERNEL_CONFIG := merge_hi3650_defconfig
+TARGET_KERNEL_SOURCE := kernel/huawei/hi3650
 BOARD_KERNEL_CMDLINE := loglevel=4 coherent_pool=512K mmcparts=mmcblk0:p1(vrl),p2(vrl_backup),p6(modemnvm_factory),p10(modemnvm_backup),p11(modemnvm_img),p12(modemnvm_system),p18(modem_om),p21(modemnvm_update),p31(modem_fw) no_console_suspend androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x00478000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x07b88000 --tags_offset 0x07588000
-HISI_TARGET_PRODUCT := hi6250
+HISI_TARGET_PRODUCT := hi3650
 TARGET_ARM_TYPE := arm64
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
 # Releasetools
-TARGET_RELEASETOOLS_EXTENSIONS := device/huawei/hi6250
+TARGET_RELEASETOOLS_EXTENSIONS := device/huawei/hi3650
 
 # RIL
-BOARD_RIL_CLASS := ../../../device/huawei/hi6250/ril/
+BOARD_RIL_CLASS := ../../../device/huawei/hi3650/ril/
 SIM_COUNT := 2
 #libbinder
 #COMMON_GLOBAL_CFLAGS += -DDISABLE_ASHMEM_TRACKING
@@ -92,4 +95,4 @@ PRODUCT_AAPT_CONFIG := normal xxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 
 # Recovery
-TARGET_RECOVERY_FSTAB := device/huawei/hi6250/rootdir/fstab.hi6250
+TARGET_RECOVERY_FSTAB := device/huawei/hi3650/rootdir/fstab.hi3650
