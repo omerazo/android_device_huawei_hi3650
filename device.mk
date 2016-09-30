@@ -21,19 +21,19 @@ $(call inherit-product, build/target/product/full_base_telephony.mk)
 $(call inherit-product, build/target/product/languages_full.mk)
 
 # Blobs
-$(call inherit-product, vendor/huawei/hi6250/vendor.mk)
+$(call inherit-product, vendor/huawei/hi3650/vendor.mk)
 
 # 64 bit
 $(call inherit-product, build/target/product/core_64_bit.mk)
 
 # Ramdisk
 PRODUCT_COPY_FILES += \
-        $(LOCAL_PATH)/rootdir/init.hi6250.rc:root/init.hi6250.rc \
+        $(LOCAL_PATH)/rootdir/init.hi3650.rc:root/init.hi3650.rc \
         $(LOCAL_PATH)/rootdir/init.platform.rc:root/init.platform.rc \
         $(LOCAL_PATH)/rootdir/init.hisi.rc:root/init.hisi.rc \
         $(LOCAL_PATH)/rootdir/init.connectivity.hisi.rc:root/init.connectivity.hisi.rc \
         $(LOCAL_PATH)/rootdir/init.connectivity.bcm43455.rc:root/init.connectivity.bcm43455.rc \
-        $(LOCAL_PATH)/rootdir/fstab.hi6250:root/fstab.hi6250 \
+        $(LOCAL_PATH)/rootdir/fstab.hi3650:root/fstab.hi3650 \
         $(LOCAL_PATH)/rootdir/resetFactory.cfg:root/resetFactory.cfg \
         $(LOCAL_PATH)/rootdir/init.51312.rc:root/init.51312.rc \
         $(LOCAL_PATH)/rootdir/init.post-fs-data.rc:root/init.post-fs-data.rc \
